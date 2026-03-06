@@ -1,0 +1,17 @@
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+app.get("/",(req,res)=> {
+    res.send("<h1>API is Running</h1>");
+});
+
+app.get("/users",(req,res)=> {
+    const users=["a","b","c"];
+    res.json(users);
+})
+
+PORT = 5000;
+
+app.listen(PORT,()=> console.log(`server is running on http://localhost:${PORT}`))
