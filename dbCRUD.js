@@ -28,7 +28,46 @@ app.post("/register",async (req,res)=> {
     }
 });
 
+app.get("/users", async(req,res)=> {
+    try{
+        const users = await User.find().select("-password");
+        res.status(200).json({users});
+    } catch(e){
+        res.json({message : "could not fetch"});
+    }
+});
 
+app.put("/users/:id", async(req,res)=> {
+    try{
+        const {username,password} = req.body;
+        const updatedUser = await User.findByIdAndUpdate(req.params.id,
+            {username,password},{new:true,runValidators:true}
+        );
+         if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json({
+            message: "User updated successfully",
+            user: updatedUser
+        });
+    } catch(error){
+        res.status(400).json({ error: error.message });
+    }
+});
 
+app.delete("/users/:id", async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json({
+            message: "User deleted successfully",
+            user: deletedUser
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 PORT = 5000;
 app.listen(PORT,()=> console.log(`Server running on http://localhost:${PORT}`));
