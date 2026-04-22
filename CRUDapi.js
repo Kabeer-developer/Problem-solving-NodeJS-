@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express"
 const app = express();
 
 app.use(express.json());
@@ -52,6 +52,6 @@ app.delete("/users/:id",(req,res)=> {
     users.splice(index,1);
     res.json({message : "User Deleted Succesfully"});
 });
-PORT = 5000;
+const PORT = 5000;
 
-app.listen(PORT,()=> console.log(`server is running on http://localhost:${PORT}`))
+app.listen(PORT,()=> console.log(`server is running on http://localhost:${PORT}`));

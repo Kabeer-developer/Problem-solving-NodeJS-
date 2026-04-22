@@ -1,9 +1,11 @@
 
-const express = require("express");
-const connectDb = require("./db");
-const User = require("./schema");
+import express from "express"
+import connectDb from "./db.js"
+import User from "./schema.js"
+import dotenv from "dotenv"
 
 const app = express();
+dotenv.config();
 connectDb();
 
 app.use(express.json());
@@ -39,17 +41,14 @@ app.get("/users", async(req,res)=> {
 
 app.put("/users/:id", async(req,res)=> {
     try{
-        const {username,password} = req.body;
-        const updatedUser = await User.findByIdAndUpdate(req.params.id,
-            {username,password},{new:true,runValidators:true}
-        );
-         if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        res.json({
-            message: "User updated successfully",
-            user: updatedUser
-        });
+       const {username,password} = req.body;
+       const updatedUser = await User.findByIdAndUpdate(req.params.id,{username,password}, {new:true,runValidators:true});
+       if(!updatedUser){
+        res.status(404).json({message : "User not found"});
+       }
+       res.status(200).json({message : "Updated Succesfully",
+                            user : updatedUser }
+       );
     } catch(error){
         res.status(400).json({ error: error.message });
     }
@@ -69,5 +68,5 @@ app.delete("/users/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-PORT = 5000;
-app.listen(PORT,()=> console.log(`Server running on http://localhost:${PORT}`));
+
+app.listen(process.env.PORT,()=> console.log(`Server running on http://localhost:${process.env.PORT}`));
