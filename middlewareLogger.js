@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express"
 const app = express();
 
 app.use(express.json());
@@ -18,6 +18,6 @@ app.get("/users",(req,res)=> {
     res.json(users);
 })
 
-PORT = 5000;
+const PORT = 5000;
 
 app.listen(PORT,()=> console.log(`server is running on http://localhost:${PORT}`))

@@ -1,7 +1,7 @@
 
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
+import express from "express"
+import multer from "multer"
+import path from "path"
 
 const app = express();
 app.use(express.json());
@@ -30,6 +30,6 @@ app.post("/upload",upload.single("file"),(req,res)=> {
         file : req.file,
     })
 })
-PORT = 5000;
+const PORT = 5000;
 
 app.listen(PORT,()=> console.log(`API is running on http://localhost:${PORT}/`))
